@@ -13,4 +13,4 @@ Gameplay:
   * Po zestrzeleniu wszystkich przeciwników, pojawia się nowa flota przeciwników
   * Każda kolejna flota porusza się jeszcze szybciej niż poprzednia
   * W przypadku, gdy obcy zetknie się ze statkiem kosmicznym lub dotrze do dolnej krawędzi ekranu, gracz traci jedno życie
-  * Gracz traci 3 życia, gra się kończy
+  * Po utracie 3 żyć gracza, następuje koniec gry
