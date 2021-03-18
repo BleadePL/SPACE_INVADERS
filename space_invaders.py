@@ -1,15 +1,24 @@
 import sys
 import pygame
 
-class AlienInvasion:
+from settings import Settings
+
+class SpaceInvaders:
     """Main class intended for resources managment and the game functionality"""
     def __init__(self):
         """Game initiation and creating its resources"""
-        programIcon = pygame.image.load('icon.png')
-        pygame.display.set_icon(programIcon)
+
+        # Game init
         pygame.init()
-        self.screen = pygame.display.set_mode((1200, 800))
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("SPACE_INVADERS")
+
+
+        #Icon init
+        icon = pygame.image.load(self.settings.programIcon)
+        pygame.display.set_icon(icon)
+
 
     def run_game(self):
             """Main loop start"""
@@ -19,11 +28,13 @@ class AlienInvasion:
                     if event.type == pygame.QUIT:
                         sys.exit()
 
+                #Refreshing screen
+                self.screen.fill(self.settings.bg_color)
                 #Displaying last modified screen
                 pygame.display.flip()
 
 
 if __name__ == '__main__':
-    #Creating a piece of game and running it
-    ai = AlienInvasion()
+    #Creating game and running it
+    ai = SpaceInvaders()
     ai.run_game()
