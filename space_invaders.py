@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from settings import Settings
+from pygame import mixer
 
 class SpaceInvaders:
     """Main class intended for resources managment and the game functionality"""
@@ -19,6 +20,9 @@ class SpaceInvaders:
         icon = pygame.image.load(self.settings.programIcon)
         pygame.display.set_icon(icon)
 
+        #Soundtrack Init
+        mixer.music.load(self.settings.soundtrack)
+        mixer.music.play(-1)
 
     def run_game(self):
             """Main loop start"""

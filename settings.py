@@ -9,3 +9,6 @@ class Settings:
 
         #icon import
         self.programIcon = "icon.png"
+
+        #soundtrack import
+        self.soundtrack = "soundtrack.wav"
