@@ -1,6 +1,7 @@
 # SPACE_INVADERS
 
 W grze Space_Invaders gracz kontroluje statek kosmiczny, który wyświetla się u dołu ekranu
+
 Gracz może: 
   * Poruszać statkiem w lewą i prawą stronę za pomocą klawiszy kursora 
   * Strzelać, przy użyciu spacji
