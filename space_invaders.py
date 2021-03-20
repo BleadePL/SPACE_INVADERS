@@ -32,9 +32,9 @@ class SpaceInvaders:
             """Main loop start"""
             while True:
                 #Awiting for pressing the button or pressing the mouse button
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        sys.exit()
+                while True:
+                    self._check_events()
+                    self._update_screen()
 
                 #Refreshing screen
                 self.screen.fill(self.settings.bg_color)
@@ -45,7 +45,16 @@ class SpaceInvaders:
                 #Displaying last modified screen
                 pygame.display.flip()
 
+    def _check_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
 
+    def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
+
+        pygame.display.flip()
 if __name__ == '__main__':
     #Creating game and running it
     ai = SpaceInvaders()
