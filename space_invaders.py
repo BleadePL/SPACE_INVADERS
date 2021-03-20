@@ -3,6 +3,7 @@ import pygame
 
 from settings import Settings
 from pygame import mixer
+from ship import Ship
 
 class SpaceInvaders:
     """Main class intended for resources managment and the game functionality"""
@@ -20,6 +21,9 @@ class SpaceInvaders:
         icon = pygame.image.load(self.settings.programIcon)
         pygame.display.set_icon(icon)
 
+        #Ship Init
+        self.ship = Ship(self)
+
         #Soundtrack Init
         mixer.music.load(self.settings.soundtrack)
         mixer.music.play(-1)
@@ -34,6 +38,10 @@ class SpaceInvaders:
 
                 #Refreshing screen
                 self.screen.fill(self.settings.bg_color)
+
+                #Ship Init
+                self.ship.blitme()
+
                 #Displaying last modified screen
                 pygame.display.flip()
 
