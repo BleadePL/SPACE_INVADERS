@@ -12,3 +12,5 @@ class Settings:
 
         #soundtrack import
         self.soundtrack = "soundtrack.wav"
+        #Ship settings
+        self.ship_speed = 1.5
