@@ -13,4 +13,11 @@ class Settings:
         #soundtrack import
         self.soundtrack = "soundtrack.wav"
         #Ship settings
-        self.ship_speed = 1.5
+        self.ship_speed = 0.9
+
+        #bullet settings
+        self.bullet_speed = 0.6
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = (0, 214, 0)
+        self.bullets_allowed = 4
