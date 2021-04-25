@@ -1,7 +1,9 @@
 import sys
+from time import sleep
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from pygame import mixer
 from ship import Ship
 from bullet import Bullet
@@ -21,6 +23,8 @@ class SpaceInvaders:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("SPACE_INVADERS")
 
+        #creating instace of class gamestats gathering all statistic data
+        self.stats = GameStats(self)
 
         #Icon init
         icon = pygame.image.load(self.settings.programIcon)
@@ -42,10 +46,12 @@ class SpaceInvaders:
         clock = pygame.time.Clock()     #to maintain the constant frame rate
         while True:
             clock.tick(200)
-            self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+            self._check_events()        #awaiting for players action (new game etc)
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
+
             self._update_screen()
 
     def _check_events(self):
@@ -92,10 +98,44 @@ class SpaceInvaders:
             self.bullets.empty()
             self._create_fleet()
 
+    def _ship_hit(self):
+        """Reaction for collition with an alien's ship"""
+        if self.stats.ships_left > 0:
+            #reducing lives
+            self.stats.ships_left -= 1
+
+            #removing contents of alien and ship lists
+            self.aliens.empty()
+            self.bullets.empty()
+
+            #creating new fleet
+            self._create_fleet()
+            self.ship.center_ship()
+
+            #pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
+
     def _update_aliens(self):
         """Update aliens current location, check wheter the alien object hits the edge of the screen"""
         self._check_fleet_edges()
         self.aliens.update()
+
+        #collition between alien and the space Ship
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+
+        self._check_aliens_bottom()
+
+    def _check_aliens_bottom(self):
+        """Checking wheter the alien reached the bottom screen"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                self._ship_hit()
+                break
+
 
     def _fire_bullet(self):
         """Creating bullet and adding it to the sprite group"""

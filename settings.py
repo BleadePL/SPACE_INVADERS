@@ -8,12 +8,13 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         #icon import
-        self.programIcon = "icon.png"
+        self.programIcon = "Images/icon.png"
 
         #soundtrack import
         self.soundtrack = "Soundtrack/soundtrack.wav"
         #Ship settings
         self.ship_speed = 5.0
+        self.ship_limit = 3
 
         #bullet settings
         self.bullet_speed = 2.5
@@ -24,6 +25,6 @@ class Settings:
 
         #alien settings
         self.alien_speed = 1.5
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 50
         #Moving right = 1/ left = -1
         self.fleet_direction = 1
