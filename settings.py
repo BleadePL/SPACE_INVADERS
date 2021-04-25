@@ -11,13 +11,19 @@ class Settings:
         self.programIcon = "icon.png"
 
         #soundtrack import
-        self.soundtrack = "soundtrack.wav"
+        self.soundtrack = "Soundtrack/soundtrack.wav"
         #Ship settings
-        self.ship_speed = 0.9
+        self.ship_speed = 5.0
 
         #bullet settings
-        self.bullet_speed = 0.6
+        self.bullet_speed = 2.5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (0, 214, 0)
         self.bullets_allowed = 4
+
+        #alien settings
+        self.alien_speed = 1.5
+        self.fleet_drop_speed = 10
+        #Moving right = 1/ left = -1
+        self.fleet_direction = 1
