@@ -11,7 +11,7 @@ class Settings:
         self.programIcon = "Images/icon.png"
 
         #soundtrack import
-        self.soundtrack = "Soundtrack/soundtrack.wav"
+        self.soundtrack = "Soundtrack/Vitaly.wav"
         #Ship settings
         self.ship_speed = 5.0
         self.ship_limit = 3
@@ -25,6 +25,6 @@ class Settings:
 
         #alien settings
         self.alien_speed = 1.5
-        self.fleet_drop_speed = 50
+        self.fleet_drop_speed = 10
         #Moving right = 1/ left = -1
         self.fleet_direction = 1
