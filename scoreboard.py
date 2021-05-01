@@ -1,8 +1,12 @@
 import pygame.font
+from pygame.sprite import Group
+from ship import Ship
 
 class Scoreboard:
     """Class dedicated to the scoring system"""
     def __init__(self, ai_game):
+        self.ai_game = ai_game
+
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.settings = ai_game.settings
@@ -10,12 +14,13 @@ class Scoreboard:
 
         #Font for the score point
         self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont(None, 25)
 
         #Preparing the images of score
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
+        self.prep_ships()
 
     def prep_score(self):
         """Convert text to an image"""
@@ -56,6 +61,7 @@ class Scoreboard:
         self.screen.blit(self.score_image, self.score_rect)     #blit displays an image showing the actual score in the score rect position
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
+        self.ships.draw(self.screen)    #method draw for all group of the ships on the screen
 
     def prep_level(self):
         """Converting level information into image"""
@@ -68,3 +74,12 @@ class Scoreboard:
         self.level_rect = self.level_image.get_rect()
         self.level_rect.right = self.score_rect.right   #right atribute returns x position
         self.level_rect.top = self.score_rect.bottom + 10   #botom returns y postion, placing the level image 10pxls under the actual score
+
+    def prep_ships(self):                               #Initialisation from method check_play_button
+        """Displays remaining ship lifes"""
+        self.ships = Group()                            #creating new group for the changing of conditions (player got hit)
+        for ship_number in range(self.stats.ships_left):
+            ship = Ship(self.ai_game)
+            ship.rect.x = 10 + ship_number * ship.rect.width    #placing all ships on the screen
+            ship.rect.y = 10
+            self.ships.add(ship)

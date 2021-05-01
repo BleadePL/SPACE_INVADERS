@@ -84,6 +84,7 @@ class SpaceInvaders:
             self.stats.game_active = True
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()            #displaying all the ships
 
             #deleting aliens and bullet lists
             self.aliens.empty()
@@ -145,6 +146,9 @@ class SpaceInvaders:
         if self.stats.ships_left > 0:
             #reducing lives
             self.stats.ships_left -= 1
+
+            #update the lifes count
+            self.sb.prep_ships()
 
             #removing contents of alien and ship lists
             self.aliens.empty()
@@ -212,7 +216,7 @@ class SpaceInvaders:
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        alien.rect.y = (alien.rect.height + 30) + 2 * alien.rect.height * row_number        #Depending on images size
         self.aliens.add(alien)
 
     def _check_fleet_edges(self):
