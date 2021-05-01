@@ -4,6 +4,8 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
+from button import Button
 from pygame import mixer
 from ship import Ship
 from bullet import Bullet
@@ -23,8 +25,10 @@ class SpaceInvaders:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("SPACE_INVADERS")
 
+
         #creating instace of class gamestats gathering all statistic data
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         #Icon init
         icon = pygame.image.load(self.settings.programIcon)
@@ -36,6 +40,9 @@ class SpaceInvaders:
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
+
+        #button play
+        self.play_button = Button(self, "Play")
 
         #Soundtrack Init
         mixer.music.load(self.settings.soundtrack)
@@ -55,13 +62,38 @@ class SpaceInvaders:
             self._update_screen()
 
     def _check_events(self):
+        """Reaction on mouse and keyboard actions"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:  #any place where user clicked mouse
+                mouse_pos = pygame.mouse.get_pos()      #get pos returns tuple (X,Y)
+                self._check_play_button(mouse_pos)      #determine if the user clicked on the button
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_event(event)
+
+    def _check_play_button(self, mouse_pos):
+        """Starting new game after pressing the play button"""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)  #collidepoint checks wheter point of the mouse click is in the button (True or False - clicked button)
+        if button_clicked and not self.stats.game_active:
+            #clear all stats
+            self.settings.initialize_dynamic_settings()        #clear all the speedups
+            self.stats.reset_status()
+            self.stats.game_active = True
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()            #displaying all the ships
+
+            #deleting aliens and bullet lists
+            self.aliens.empty()
+            self.bullets.empty()
+
+            #creating new fleet and returning ship to its origin position
+            self._create_fleet()
+            self.ship.center_ship()
+            pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -91,18 +123,32 @@ class SpaceInvaders:
 
     def _check_bullet_alien_collision(self):
         """Collision reaction between bullets and aliens"""
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)  #Every bullet is a key in dictionary, values is the list of the hit aliens
+
+        if collisions:                                          #Checking if a dictionary exists
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)    # To make the game count points from hitting two enemies by one bullet
+            self.sb.prep_score()                                                #Create new image for new score to be displayed on the screen
+            self.sb.check_high_score()
 
         if not self.aliens: # checking if aliens group is empty
             #getting rid of exisitng bullets and creating new fleet
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
+
+            #levelling up
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _ship_hit(self):
         """Reaction for collition with an alien's ship"""
         if self.stats.ships_left > 0:
             #reducing lives
             self.stats.ships_left -= 1
+
+            #update the lifes count
+            self.sb.prep_ships()
 
             #removing contents of alien and ship lists
             self.aliens.empty()
@@ -116,6 +162,7 @@ class SpaceInvaders:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _update_aliens(self):
         """Update aliens current location, check wheter the alien object hits the edge of the screen"""
@@ -169,7 +216,7 @@ class SpaceInvaders:
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        alien.rect.y = (alien.rect.height + 30) + 2 * alien.rect.height * row_number        #Depending on images size
         self.aliens.add(alien)
 
     def _check_fleet_edges(self):
@@ -191,6 +238,12 @@ class SpaceInvaders:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+
+        #Displaying info about the scoreboard
+        self.sb.show_score()
+
+        if not self.stats.game_active:          # Displaying the button only when the game is inactive
+            self.play_button.draw_button()
 
         pygame.display.flip()
 
