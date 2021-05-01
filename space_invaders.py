@@ -82,6 +82,8 @@ class SpaceInvaders:
             self.settings.initialize_dynamic_settings()        #clear all the speedups
             self.stats.reset_status()
             self.stats.game_active = True
+            self.sb.prep_score()
+            self.sb.prep_level()
 
             #deleting aliens and bullet lists
             self.aliens.empty()
@@ -120,13 +122,23 @@ class SpaceInvaders:
 
     def _check_bullet_alien_collision(self):
         """Collision reaction between bullets and aliens"""
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)  #Every bullet is a key in dictionary, values is the list of the hit aliens
+
+        if collisions:                                          #Checking if a dictionary exists
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)    # To make the game count points from hitting two enemies by one bullet
+            self.sb.prep_score()                                                #Create new image for new score to be displayed on the screen
+            self.sb.check_high_score()
 
         if not self.aliens: # checking if aliens group is empty
             #getting rid of exisitng bullets and creating new fleet
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            #levelling up
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _ship_hit(self):
         """Reaction for collition with an alien's ship"""
