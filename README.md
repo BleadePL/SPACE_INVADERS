@@ -6,7 +6,7 @@ Gracz może:
   * Poruszać statkiem w lewą i prawą stronę za pomocą klawiszy kursora 
   * Strzelać, przy użyciu spacji
   * Zapisywać swoje wyniki pod podanym pseudonimem
-  * Zostać trafiony 2 razy (posiada 3 życia)
+  * Zostać trafiony 3 razy (posiada 3 życia)
 
 Gameplay:
   * Po rozpoczęciu rozgrywki na ekranie pojawiaja się fala floty obcych, którzy poruszają się wzdłuż ekranu, wprst na statek gracza
