@@ -4,6 +4,7 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from pygame import mixer
 from ship import Ship
@@ -24,8 +25,10 @@ class SpaceInvaders:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("SPACE_INVADERS")
 
+
         #creating instace of class gamestats gathering all statistic data
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         #Icon init
         icon = pygame.image.load(self.settings.programIcon)
@@ -219,6 +222,9 @@ class SpaceInvaders:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+
+        #Displaying info about the scoreboard
+        self.sb.show_score()
 
         if not self.stats.game_active:          # Displaying the button only when the game is inactive
             self.play_button.draw_button()

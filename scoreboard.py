@@ -1,0 +1,29 @@
+import pygame.font
+
+class Scoreboard:
+    """Class dedicated to the scoring system"""
+    def __init__(self, ai_game):
+        self.screen = ai_game.screen
+        self.screen_rect = self.screen.get_rect()
+        self.settings = ai_game.settings
+        self.stats = ai_game.stats
+
+        #Font for the score point
+        self.text_color = (30, 30, 30)
+        self.font = pygame.font.SysFont(None, 48)
+
+        self.prep_score()
+
+    def prep_score(self):
+        """Convert text to a image"""
+        score_str = str(self.stats.score)
+        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)   #creating the image on the screen
+
+        #Displaying score
+        self.score_rect = self.score_image.get_rect()
+        self.score_rect.right = self.screen_rect.right - 20     #displaying the score to the right
+        self.score_rect.top = 20
+
+    def show_score(self):
+        """Displaying the actual scores"""
+        self.screen.blit(self.score_image, self.score_rect)     #blit displays an image showing the actual score in the score rect position
