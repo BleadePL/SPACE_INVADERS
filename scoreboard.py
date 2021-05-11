@@ -12,6 +12,9 @@ class Scoreboard:
         self.settings = ai_game.settings
         self.stats = ai_game.stats
 
+        self.axis_x = 0
+        self.username = ""
+
         #Font for the score point
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 30)
@@ -92,10 +95,7 @@ class Scoreboard:
         self.screen.fill(self.settings.leadership_bg, self.leadership_rect)
 
         leadership = sorted(self.stats.leadership, key=lambda x: int(x.split(',')[1]), reverse=True)
-
         start_pos_x, startingpos_y = self.leadership_rect.topleft
-
-
 
         for word in leadership:
             word_surface = self.font.render(word, True, pygame.Color('black'))
@@ -114,10 +114,31 @@ class Scoreboard:
         self.screen.fill(pygame.Color("green"), self.exit_button)
         self.screen.blit(msg_image, self.msg_image_rect)
 
-
-
-
     def draw_leadership(self, mouse_pos):
         """Displays table with high scores"""
         self.prep_leadership()
         return self.exit_button.collidepoint(mouse_pos)
+
+    def prep_message_score(self):
+        """Creating method for saving a placement's score"""
+
+        self.end_message_rect = pygame.Rect(0, 0, self.settings.screen_width, self.settings.screen_height)
+        self.end_message_rect.center = self.screen.get_rect().center
+        self.screen.fill(pygame.Color('black'), self.end_message_rect)
+
+        self.msg_image_end = pygame.font.SysFont(None, 80).render("Game over, Enter your username and hit enter", True, pygame.Color('white'), pygame.Color('green'))
+        self.screen.blit(self.msg_image_end, self.msg_image_end.get_rect())
+
+
+
+    def draw_message_score(self):
+        self.prep_message_score()
+
+
+    def draw_letter(self, character):
+        self.username += character
+        self.axis_x += 1
+
+    def draw_nickname(self):
+        msg_image = pygame.font.SysFont(None, 80).render(self.username, True, pygame.Color('white'))
+        self.screen.blit(msg_image, (self.axis_x, self.msg_image_end.get_rect().bottom + 10))

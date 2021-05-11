@@ -15,6 +15,8 @@ class GameStats:
         #leadership
         self.leadership = []
 
+        self.username = ""
+
         #reading data from files
         self.load_data()
 
@@ -44,3 +46,15 @@ class GameStats:
         with open(self.settings.high_score_file, 'w') as f:
             f.write(str(self.score))
         f.close()
+
+    def save_score(self):
+        self.username += ","
+        self.username += str(self.score)
+        tmp = "\n"
+        tmp += self.username
+        with open(self.settings.leadership_file, 'a') as f:
+            f.write(tmp)
+        f.close()
+        self.username = ""
+        self.leadership.clear()
+        self.load_data()

@@ -24,15 +24,17 @@ class Settings:
         self.bullet_hit_sound = mixer.Sound("Soundtrack/bullet_hit_sound.wav")
         self.bullet_sound = mixer.Sound("Soundtrack/bullet_sound.wav")
         self.empty_magazine_sound = mixer.Sound("Soundtrack/empty_magazine.wav")
+        self.ship_hit_sound = mixer.Sound("Soundtrack/ship_hit.wav")
 
         self.bullet_sound.set_volume(self.volume - 0.2)
         self.bullet_hit_sound.set_volume(self.volume + 0.1)
+        self.ship_hit_sound.set_volume(self.volume + 0.2)
 
         #ship settings
         self.ship_limit = 3
 
         #bullet settings
-        self.bullet_width = 300
+        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (0, 214, 0)
         self.bullets_allowed = 4
@@ -49,8 +51,8 @@ class Settings:
         self.initialize_dynamic_settings()  #Change the value of speed atributes
 
         #the size of leadership pop up
-        self.leadership_size_width = 250
-        self.leadership_size_heigh = 200
+        self.leadership_size_width = 350
+        self.leadership_size_heigh = 450
 
 
     def initialize_dynamic_settings(self):

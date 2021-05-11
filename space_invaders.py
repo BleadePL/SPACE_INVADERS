@@ -26,6 +26,7 @@ class SpaceInvaders:
         pygame.display.set_caption("SPACE_INVADERS")
 
         self.leaderboard_on = False
+        self.ending_message_on = False
 
         #creating instace of class gamestats gathering all statistic data
         self.stats = GameStats(self)
@@ -121,6 +122,16 @@ class SpaceInvaders:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif self.ending_message_on:
+            if event.key != pygame.K_KP_ENTER:
+                self.stats.username += str(event.unicode)
+                print(event.unicode)
+                self.sb.draw_letter(event.unicode)
+            else:
+                self.ending_message_on = False
+                self.sb.username = ""
+                self.stats.save_score()
+
 
     def _check_keyup_event(self, event):
         if event.key == pygame.K_RIGHT:
@@ -178,10 +189,11 @@ class SpaceInvaders:
             self.ship.center_ship()
 
             #pause
-            sleep(0.5)
+            sleep(0.8)
         else:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
+            self.ending_message_on = True
 
     def _update_aliens(self):
         """Update aliens current location, check wheter the alien object hits the edge of the screen"""
@@ -190,6 +202,7 @@ class SpaceInvaders:
 
         #collition between alien and the space Ship
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self.settings.ship_hit_sound.play()
             self._ship_hit()
 
         self._check_aliens_bottom()
@@ -269,6 +282,10 @@ class SpaceInvaders:
 
             if self.leaderboard_on:
                 self.sb.draw_leadership(pygame.mouse.get_pos())
+
+            if self.ending_message_on:
+                self.sb.draw_message_score()
+                self.sb.draw_nickname()
 
         pygame.display.flip()
 
