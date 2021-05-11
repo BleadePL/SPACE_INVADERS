@@ -55,6 +55,7 @@ class Scoreboard:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
+            self.stats.save_data()
 
     def show_score(self):
         """Displaying the actual scores"""

@@ -12,8 +12,22 @@ class GameStats:
         #Best score
         self.high_score = 0
 
+        self.load_data()
+
     def reset_status(self):
         """initialization of statistic value, can be managed later"""
         self.ships_left = self.settings.ship_limit
         self.score = 0
         self.level = 1
+
+    def load_data(self):
+        #load high score
+        with open(self.settings.high_score_file) as f:
+            self.high_score = int(f.readline())
+        f.close()
+
+
+    def save_data(self):
+        with open(self.settings.high_score_file, 'w') as f:
+            f.write(str(self.score))
+        f.close()

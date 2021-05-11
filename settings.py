@@ -11,6 +11,9 @@ class Settings:
         #icon import
         self.programIcon = "Images/icon.png"
 
+        #file scores
+        self.high_score_file = "Data/score_board.txt"
+
         #soundtracks
         self.volume = 0.4
         self.soundtrack = "Soundtrack/Vitaly.wav"
@@ -25,7 +28,7 @@ class Settings:
         self.ship_limit = 3
 
         #bullet settings
-        self.bullet_width = 3
+        self.bullet_width = 300
         self.bullet_height = 15
         self.bullet_color = (0, 214, 0)
         self.bullets_allowed = 4

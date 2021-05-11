@@ -43,6 +43,7 @@ class SpaceInvaders:
 
         #button play
         self.play_button = Button(self, "Play")
+        self.high_score_board = Button(self, "High Scores")
 
         #Soundtrack Init
         mixer.music.load(self.settings.soundtrack)
@@ -78,6 +79,7 @@ class SpaceInvaders:
     def _check_play_button(self, mouse_pos):
         """Starting new game after pressing the play button"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)  #collidepoint checks wheter point of the mouse click is in the button (True or False - clicked button)
+        button_scores_clicked = self.high_score_board.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
             #clear all stats
             self.settings.initialize_dynamic_settings()        #clear all the speedups
@@ -95,6 +97,11 @@ class SpaceInvaders:
             self._create_fleet()
             self.ship.center_ship()
             pygame.mouse.set_visible(False)
+
+        elif button_scores_clicked and not self.stats.game_active:
+            #display table
+            pass
+
 
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -249,6 +256,7 @@ class SpaceInvaders:
 
         if not self.stats.game_active:          # Displaying the button only when the game is inactive
             self.play_button.draw_button()
+            self.high_score_board.draw_button()
 
         pygame.display.flip()
 
