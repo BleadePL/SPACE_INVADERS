@@ -124,9 +124,14 @@ class SpaceInvaders:
             self._fire_bullet()
         elif self.ending_message_on:
             if event.key != pygame.K_KP_ENTER:
-                self.stats.username += str(event.unicode)
-                print(event.unicode)
-                self.sb.draw_letter(event.unicode)
+                if event.key == pygame.K_BACKSPACE:
+                    if len(self.sb.username) > 0:
+                        self.sb.username = self.sb.username[: len(self.sb.username) - 1]
+                        self.stats.username = self.sb.username
+                else:
+                    self.stats.username += str(event.unicode)
+                    print(event.unicode)
+                    self.sb.draw_letter(event.unicode)
             else:
                 self.ending_message_on = False
                 self.sb.username = ""
