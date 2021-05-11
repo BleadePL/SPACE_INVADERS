@@ -7,12 +7,16 @@ class Settings:
         self.screen_width = 1280
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
+        self.leadership_bg = (181, 181, 181)
 
         #icon import
         self.programIcon = "Images/icon.png"
 
         #file scores
         self.high_score_file = "Data/score_board.txt"
+
+        #file leadership
+        self.leadership_file = "Data/leadership.txt"
 
         #soundtracks
         self.volume = 0.4
@@ -43,6 +47,10 @@ class Settings:
         self.score_scale = 1.5
 
         self.initialize_dynamic_settings()  #Change the value of speed atributes
+
+        #the size of leadership pop up
+        self.leadership_size_width = 250
+        self.leadership_size_heigh = 200
 
 
     def initialize_dynamic_settings(self):

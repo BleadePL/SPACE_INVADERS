@@ -84,3 +84,40 @@ class Scoreboard:
             ship.rect.x = 10 + ship_number * ship.rect.width    #placing all ships on the screen
             ship.rect.y = 10
             self.ships.add(ship)
+
+    def prep_leadership(self):
+        """Creating pop up with leadership"""
+        self.leadership_rect = pygame.Rect(0, 0, self.settings.leadership_size_width, self.settings.leadership_size_heigh)
+        self.leadership_rect.center = self.screen.get_rect().center
+        self.screen.fill(self.settings.leadership_bg, self.leadership_rect)
+
+        leadership = sorted(self.stats.leadership, key=lambda x: int(x.split(',')[1]), reverse=True)
+
+        start_pos_x, startingpos_y = self.leadership_rect.topleft
+
+
+
+        for word in leadership:
+            word_surface = self.font.render(word, True, pygame.Color('black'))
+            word_width, word_height = word_surface.get_size()
+            self.screen.blit(word_surface, (start_pos_x, startingpos_y))
+            startingpos_y += word_height
+
+
+        self.exit_button = pygame.Rect(0, 0, 20, 20)
+        self.exit_button.topright = self.leadership_rect.topright
+
+        msg_image = self.font.render("X", True, pygame.Color('white'), pygame.Color('green'))
+        self.msg_image_rect = msg_image.get_rect()
+        self.msg_image_rect.center = self.exit_button.center
+
+        self.screen.fill(pygame.Color("green"), self.exit_button)
+        self.screen.blit(msg_image, self.msg_image_rect)
+
+
+
+
+    def draw_leadership(self, mouse_pos):
+        """Displays table with high scores"""
+        self.prep_leadership()
+        return self.exit_button.collidepoint(mouse_pos)

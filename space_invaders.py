@@ -25,6 +25,7 @@ class SpaceInvaders:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("SPACE_INVADERS")
 
+        self.leaderboard_on = False
 
         #creating instace of class gamestats gathering all statistic data
         self.stats = GameStats(self)
@@ -43,7 +44,7 @@ class SpaceInvaders:
 
         #button play
         self.play_button = Button(self, "Play")
-        self.high_score_board = Button(self, "High Scores")
+        self.high_score_button = Button(self, "High Scores")
 
         #Soundtrack Init
         mixer.music.load(self.settings.soundtrack)
@@ -71,6 +72,8 @@ class SpaceInvaders:
             elif event.type == pygame.MOUSEBUTTONDOWN:  #any place where user clicked mouse
                 mouse_pos = pygame.mouse.get_pos()      #get pos returns tuple (X,Y)
                 self._check_play_button(mouse_pos)      #determine if the user clicked on the button
+                self._check_high_score_button(mouse_pos)
+                self._check_exit_score_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -79,7 +82,6 @@ class SpaceInvaders:
     def _check_play_button(self, mouse_pos):
         """Starting new game after pressing the play button"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)  #collidepoint checks wheter point of the mouse click is in the button (True or False - clicked button)
-        button_scores_clicked = self.high_score_board.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
             #clear all stats
             self.settings.initialize_dynamic_settings()        #clear all the speedups
@@ -98,9 +100,16 @@ class SpaceInvaders:
             self.ship.center_ship()
             pygame.mouse.set_visible(False)
 
-        elif button_scores_clicked and not self.stats.game_active:
-            #display table
-            pass
+
+    def _check_high_score_button(self, mouse_pos):
+        button_clicked = self.high_score_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            self.leaderboard_on = True
+            self.sb.draw_leadership(mouse_pos)
+
+    def _check_exit_score_button(self, mouse_pos):
+        if self.leaderboard_on and self.sb.exit_button.collidepoint(mouse_pos):
+            self.leaderboard_on = False
 
 
     def _check_keydown_events(self, event):
@@ -108,7 +117,7 @@ class SpaceInvaders:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
-        elif event.key == pygame.K_q:
+        elif event.key == pygame.K_ESCAPE:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -256,7 +265,10 @@ class SpaceInvaders:
 
         if not self.stats.game_active:          # Displaying the button only when the game is inactive
             self.play_button.draw_button()
-            self.high_score_board.draw_button()
+            self.high_score_button.draw_button()
+
+            if self.leaderboard_on:
+                self.sb.draw_leadership(pygame.mouse.get_pos())
 
         pygame.display.flip()
 
