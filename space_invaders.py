@@ -213,6 +213,7 @@ class SpaceInvaders:
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= screen_rect.bottom:
                 self._ship_hit()
+                self.settings.ship_hit_sound.play()
                 break
 
 
