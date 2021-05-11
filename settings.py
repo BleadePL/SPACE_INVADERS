@@ -1,3 +1,4 @@
+from pygame import mixer
 class Settings:
     def __init__(self):
         """Class designed to store all game settings"""
@@ -10,8 +11,15 @@ class Settings:
         #icon import
         self.programIcon = "Images/icon.png"
 
-        #soundtrack import
+        #soundtracks
+        self.volume = 0.4
         self.soundtrack = "Soundtrack/Vitaly.wav"
+        self.bullet_hit_sound = mixer.Sound("Soundtrack/bullet_hit_sound.wav")
+        self.bullet_sound = mixer.Sound("Soundtrack/bullet_sound.wav")
+        self.empty_magazine_sound = mixer.Sound("Soundtrack/empty_magazine.wav")
+
+        self.bullet_sound.set_volume(self.volume - 0.2)
+        self.bullet_hit_sound.set_volume(self.volume + 0.1)
 
         #ship settings
         self.ship_limit = 3
