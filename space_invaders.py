@@ -47,6 +47,7 @@ class SpaceInvaders:
         #Soundtrack Init
         mixer.music.load(self.settings.soundtrack)
         mixer.music.play(-1)
+        mixer.music.set_volume(self.settings.volume)
 
     def run_game(self):
         """Main loop game start"""
@@ -128,6 +129,8 @@ class SpaceInvaders:
         if collisions:                                          #Checking if a dictionary exists
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)    # To make the game count points from hitting two enemies by one bullet
+                for repeat in range(len(aliens)):
+                    self.settings.bullet_hit_sound.play()                       #Playing hit sound for every hit alien
             self.sb.prep_score()                                                #Create new image for new score to be displayed on the screen
             self.sb.check_high_score()
 
@@ -189,7 +192,9 @@ class SpaceInvaders:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
-        #Dodanie metody dźwięku braku pocisków
+            self.settings.bullet_sound.play()                       #Bullet sound play
+        else: self.settings.empty_magazine_sound.play()             #Empty magazine sound play
+
 
     def _create_fleet(self):
         """Creating the fleet"""
