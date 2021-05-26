@@ -1,3 +1,4 @@
+import pygame.image
 from pygame import mixer
 class Settings:
     def __init__(self):
@@ -10,13 +11,16 @@ class Settings:
         self.leadership_bg = (181, 181, 181)
 
         #icon import
-        self.programIcon = "Images/icon.png"
+        self.programIcon = "Images/icon.png"                                #Game icon
 
         #file scores
-        self.high_score_file = "Data/score_board.txt"
+        self.high_score_file = "Data/score_board.txt"                       #File containing the highest score
 
         #file leadership
-        self.leadership_file = "Data/leadership.txt"
+        self.leadership_file = "Data/leadership.txt"                        #File containing leaderboard of players
+
+        #file space background
+        self.image_background = pygame.image.load("Images/universe.jpg")    #Background of the screen
 
         #soundtracks
         self.volume = 0.4

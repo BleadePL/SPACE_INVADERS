@@ -27,6 +27,8 @@ class GameStats:
         self.level = 1
 
     def load_data(self):
+        """Method for loading high score from file and all recent players"""
+
         #load high score
         with open(self.settings.high_score_file) as f:
             self.high_score = int(f.readline())
@@ -41,13 +43,14 @@ class GameStats:
         f.close()
 
 
-
     def save_data(self):
+        """Method for saving the new high score"""
         with open(self.settings.high_score_file, 'w') as f:
             f.write(str(self.score))
         f.close()
 
     def save_score(self):
+        """Method for saving new player to data base"""
         self.username += ","
         self.username += str(self.score)
         tmp = "\n"

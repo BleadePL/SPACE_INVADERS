@@ -12,15 +12,14 @@ class Scoreboard:
         self.settings = ai_game.settings
         self.stats = ai_game.stats
 
-        self.axis_x = 0
-        self.username = ""
+        self.username = ""          #Responsible for saving a nickname
 
         #Font for the score point
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 30)
 
         #Preparing the images of score
-        self.prep_score()
+        self.prep_score()           #Prepare the
         self.prep_high_score()
         self.prep_level()
         self.prep_ships()
@@ -65,7 +64,7 @@ class Scoreboard:
         self.screen.blit(self.score_image, self.score_rect)     #blit displays an image showing the actual score in the score rect position
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
-        self.ships.draw(self.screen)    #method draw for all group of the ships on the screen
+        self.ships.draw(self.screen)                            #method draw for all group of the ships on the screen
 
     def prep_level(self):
         """Converting level information into image"""
@@ -76,12 +75,12 @@ class Scoreboard:
 
         #Level number is displayed under the actual score
         self.level_rect = self.level_image.get_rect()
-        self.level_rect.right = self.score_rect.right   #right atribute returns x position
-        self.level_rect.top = self.score_rect.bottom + 10   #botom returns y postion, placing the level image 10pxls under the actual score
+        self.level_rect.right = self.score_rect.right           #right atribute returns x position
+        self.level_rect.top = self.score_rect.bottom + 10       #botom returns y postion, placing the level image 10pxls under the actual score
 
-    def prep_ships(self):                               #Initialisation from method check_play_button
+    def prep_ships(self):                                       #Initialisation from method check_play_button
         """Displays remaining ship lifes"""
-        self.ships = Group()                            #creating new group for the changing of conditions (player got hit)
+        self.ships = Group()                                    #creating new group for the changing of conditions (player got hit)
         for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_game)
             ship.rect.x = 10 + ship_number * ship.rect.width    #placing all ships on the screen
@@ -132,13 +131,15 @@ class Scoreboard:
 
 
     def draw_message_score(self):
+        """Display game over message"""
         self.prep_message_score()
 
 
     def draw_letter(self, character):
+        """Add a leter to the username"""
         self.username += character
-        self.axis_x += 1
 
     def draw_nickname(self):
+        """Draw current nickname"""
         msg_image = pygame.font.SysFont(None, 80).render(self.username, True, pygame.Color('white'))
-        self.screen.blit(msg_image, (self.axis_x, self.msg_image_end.get_rect().bottom + 10))
+        self.screen.blit(msg_image, (0, self.msg_image_end.get_rect().bottom + 10))
