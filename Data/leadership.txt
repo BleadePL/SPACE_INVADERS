@@ -1,0 +1,10 @@
+Konrad,10020
+Stefan,1000000
+Julia,3000010
+Dominik,6000000
+Jaros³aw,1000
+Jeezyy,5100500
+Eeasy,66543
+Test1,1200
+Test 2,1600
+Jêzyki Skryptowe,6536862
