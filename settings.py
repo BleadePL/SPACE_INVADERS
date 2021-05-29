@@ -1,3 +1,4 @@
+import pygame.image
 from pygame import mixer
 class Settings:
     def __init__(self):
@@ -7,9 +8,19 @@ class Settings:
         self.screen_width = 1280
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
+        self.leadership_bg = (181, 181, 181)
 
         #icon import
-        self.programIcon = "Images/icon.png"
+        self.programIcon = "Images/icon.png"                                #Game icon
+
+        #file scores
+        self.high_score_file = "Data/score_board.txt"                       #File containing the highest score
+
+        #file leadership
+        self.leadership_file = "Data/leadership.txt"                        #File containing leaderboard of players
+
+        #file space background
+        self.image_background = pygame.image.load("Images/universe.jpg")    #Background of the screen
 
         #soundtracks
         self.volume = 0.4
@@ -17,9 +28,11 @@ class Settings:
         self.bullet_hit_sound = mixer.Sound("Soundtrack/bullet_hit_sound.wav")
         self.bullet_sound = mixer.Sound("Soundtrack/bullet_sound.wav")
         self.empty_magazine_sound = mixer.Sound("Soundtrack/empty_magazine.wav")
+        self.ship_hit_sound = mixer.Sound("Soundtrack/ship_hit.wav")
 
         self.bullet_sound.set_volume(self.volume - 0.2)
         self.bullet_hit_sound.set_volume(self.volume + 0.1)
+        self.ship_hit_sound.set_volume(self.volume + 0.2)
 
         #ship settings
         self.ship_limit = 3
@@ -40,6 +53,10 @@ class Settings:
         self.score_scale = 1.5
 
         self.initialize_dynamic_settings()  #Change the value of speed atributes
+
+        #the size of leadership pop up
+        self.leadership_size_width = 350
+        self.leadership_size_heigh = 450
 
 
     def initialize_dynamic_settings(self):

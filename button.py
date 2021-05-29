@@ -1,6 +1,7 @@
 import pygame.font
 
 class Button():
+    __button_space = 0
     def __init__(self, ai_game, msg):   #screen był też atrybut
         """Inicialisation button's atributes"""
         self.screen = ai_game.screen
@@ -14,7 +15,10 @@ class Button():
 
         #Creating button and centerering button
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.center = self.screen_rect.center      #Aby wycentrować przypisujemy środkowi przycisku środek nasszego ekranu
+        self.rect.center = self.screen_rect.center                                          #Aby wycentrować przypisujemy środkowi przycisku środek nasszego ekranu
+        self.rect.y += self.__button_space
+
+        Button.__button_space += self.rect.height + 30
 
         #Message prompt by the button
         self._prep_msg(msg)
@@ -29,4 +33,4 @@ class Button():
     def draw_button(self):
         #Displaying empty button, then the message on it
         self.screen.fill(self.button_color, self.rect)
-        self.screen.blit(self.msg_image, self.msg_image_rect)   #Blit wyświetla obraz tekstu na ekranie
+        self.screen.blit(self.msg_image, self.msg_image_rect)                               #Blit wyświetla obraz tekstu na ekranie
