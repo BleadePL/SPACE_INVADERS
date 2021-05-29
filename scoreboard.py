@@ -52,7 +52,7 @@ class Scoreboard:
         self.high_score_rect.top = self.score_rect.top              # to make all the scores rectangle be on the same height
 
 
-    def check_high_score(self):                                     #Checked in bullet_alien_collisions
+    def check_high_score(self):                                             #Checked in bullet_alien_collisions
         """Checking wheter the player beat the actual high score"""
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score

@@ -44,7 +44,7 @@ class Settings:
         self.bullets_allowed = 4
 
 
-        self.fleet_drop_speed = 100
+        self.fleet_drop_speed = 10
 
         #Easy changing the speed of game
         self.speedup_scale = 1.1    #2 means double speed
